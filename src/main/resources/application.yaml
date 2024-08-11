@@ -1,36 +1,51 @@
 spring:
   application:
-    name: licensing-service
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: pass
-  jpa:
-    properties.hibernate:
-      show_sql: true
-      format_sql: true
+    name: user-service
+
+
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    driver-class-name: org.postgresql.Driver
+#    username: postgres
+#    password: pass
+#    hikari:
+#      allow-pool-suspension: true
+#  jpa:
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    driver-class-name: org.postgresql.Driver
+#    username: postgres
+#    password: pass
+#  jpa:
+#    properties.hibernate:
+#      show_sql: true
+#      format_sql: true
 
 #  cloud:
 #    loadbalancer:
 #      ribbon:
 #        enabled: false
 
+
+server:
+  port: 8080
+
+
 management:
   endpoints:
     web:
       exposure:
-        include: *
-    enabled-by-default: true
+        include: '*'
 
 eureka:
   instance:
-    prefer-ip-address: true
+    preferIpAddress: true
   client:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://eurekaserver:8070/eureka/
+      defaultZone: http://localhost:8070/eureka/
 
 logging:
   level:
