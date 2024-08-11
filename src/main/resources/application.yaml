@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: licensing-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: pass
+  jpa:
+    properties.hibernate:
+      show_sql: true
+      format_sql: true
+
+#  cloud:
+#    loadbalancer:
+#      ribbon:
+#        enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: *
+    enabled-by-default: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://eurekaserver:8070/eureka/
+
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    org.org.scuni: DEBUG
