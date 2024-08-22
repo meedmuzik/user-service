@@ -1,54 +1,52 @@
 spring:
   application:
     name: user-service
-
-
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/postgres
-#    driver-class-name: org.postgresql.Driver
-#    username: postgres
-#    password: pass
-#    hikari:
-#      allow-pool-suspension: true
-#  jpa:
-#    database-platform: org.hibernate.dialect.PostgreSQLDialect
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/postgres
-#    driver-class-name: org.postgresql.Driver
-#    username: postgres
-#    password: pass
-#  jpa:
-#    properties.hibernate:
-#      show_sql: true
-#      format_sql: true
-
-#  cloud:
-#    loadbalancer:
-#      ribbon:
-#        enabled: false
-
-
-server:
-  port: 8080
-
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
+  datasource:
+#    url: jdbc:postgresql://postgresql:5432/postgres
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
+    password: password
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        hbm2ddl:
+          auto: validate
+  mvc:
+    format:
+      date: iso
 
 eureka:
   instance:
-    preferIpAddress: true
+    prefer-ip-address: true
   client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://eureka-server:8070/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka
+#      defaultZone: http://eureka-server:8070/eureka
+
+server:
+  port: 8085
+
+
+minio:
+  bucket: images
+#  url: https://minio:9090
+  url: http://localhost:9000
+  access-key: minioadmin
+  secret-key: minioadmin
 
 logging:
   level:
-    com.netflix: WARN
-    org.springframework.web: WARN
-    org.org.scuni: DEBUG
+    root: INFO
+    org.scuni: INFO
+
+keycloak:
+  admin:
+    client-id: admin-cli
+    client-secret: 9l7KeUeYFWsKBQkPNqLVMRgmBOK1BRx8
+  server-url: http://localhost:9082
+  realm: scuni
+  grant-type: client_credentials
