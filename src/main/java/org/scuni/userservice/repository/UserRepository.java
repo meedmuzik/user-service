@@ -1,15 +1,13 @@
 package org.scuni.userservice.repository;
 
 import org.scuni.userservice.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
-    @Modifying
-    @Query("update User u set u.imageFilename = :imageFilename where u.id = :id")
-    void updateImageFilenameById(@Param("imageFilename") String imageFilename, @Param("id")Integer id);
+public interface UserRepository extends Neo4jRepository<User, Long> {
+    @Query("MATCH (a:User) WHERE id(a) = $id SET a.imageFilename = $filename")
+    void updateImageFilenameById(@Param("filename") String filename, @Param("id") Long id);
 }

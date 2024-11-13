@@ -3,7 +3,7 @@ RUN apk add --no-cache openjdk21
 WORKDIR /app
 COPY build/libs/app.jar app.jar
 
-EXPOSE 8070
+EXPOSE 8088
 ENTRYPOINT ["java", "-jar","--add-opens=java.base/java.lang=ALL-UNNAMED", "app.jar"]
 
 # Теперь сервис не компилируется в контейнере

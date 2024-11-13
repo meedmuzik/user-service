@@ -21,27 +21,27 @@ public class UserService {
 
     private final UserReadDtoMapper userReadDtoMapper;
 
-    public Integer createUser(UserCreateDto userCreateDto) {
+    public Long createUser(UserCreateDto userCreateDto) {
         keycloakUserService.createUser(userCreateDto);
         String keycloakId = keycloakUserService.getKeycloakId(userCreateDto.getUsername());
         User user = User.builder()
                 .keycloakId(keycloakId)
                 .build();
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
         return user.getId();
     }
 
-    public void updateImageFilenameByImageFilename(String filename, Integer id) {
+    public void updateImageFilenameByImageFilename(String filename, Long id) {
         userRepository.updateImageFilenameById(filename, id);
     }
 
-    public UserReadDto getUserById(Integer id) {
+    public UserReadDto getUserById(Long id) {
         return userRepository.findById(id)
                 .map(userReadDtoMapper::map)
                 .orElseThrow(() -> new UserNotFoundException("Failed to get user"));
     }
 
-    public void deleteUserById(Integer id) {
+    public void deleteUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Failed to get user"));
         keycloakUserService.deleteUserById(user.getKeycloakId());
@@ -49,13 +49,13 @@ public class UserService {
     }
 
 
-    public void updatePassword(Integer id) {
+    public void updatePassword(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Failed to get user"));
         keycloakUserService.resetPassword(user.getKeycloakId());
     }
 
-    public void sendVerificationEmail(Integer id) {
+    public void sendVerificationEmail(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Failed to get user"));
         keycloakUserService.sendVerificationEmail(user.getKeycloakId());
